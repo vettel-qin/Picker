@@ -1,0 +1,77 @@
+@import 'variables.scss';
+
+.popupMask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popupWrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -100%;
+  z-index: 1000;
+  background-color: #fff;
+  transition: all 0.5s;
+}
+
+.popupHeader {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+
+  .popupItem {
+    padding: rem(10) rem(30);
+    height: rem(60);
+    font-size: rem(34);
+    line-height: rem(60);
+    color: #000;
+    text-align: center;
+
+    &.popupItemTitle {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &.popupItemLeft {
+      color: #00b4a5;
+    }
+
+    &.popupItemRight {
+      color: #1e83d3;
+    }
+  }
+}
+
+.extra {
+  width: 100%;
+  height: 100%;
+}
+
+:global(.popup) {
+  bottom: 0;
+}
+
+:global(.hide) {
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.picker {
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, z-index 0.5s;
+}
+
+.showPicker {
+  opacity: 1;
+  z-index: 10000;
+  visibility: visible;
+}

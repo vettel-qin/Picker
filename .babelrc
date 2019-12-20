@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "forceAllTransforms": true,
+        "modules": false,
+        "useBuiltIns": false,
+        "loose": true
+      }
+    ],
+    "@babel/preset-react"
+  ]
+}

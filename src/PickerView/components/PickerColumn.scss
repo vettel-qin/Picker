@@ -1,0 +1,63 @@
+@import 'variables.scss';
+
+.column {
+  flex: 1;
+
+  .columnList {
+    position: relative;
+    height: rem(340);
+    overflow: hidden;
+
+    .columnWindow {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.4)), linear-gradient(to top, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.4));
+      background-position: top, bottom;
+      background-size: 100% rem(136);
+      background-repeat: no-repeat;
+      z-index: 3;
+    }
+
+    .columnIndicator {
+      box-sizing: border-box;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: rem(68);
+      border-top: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      transform: translate3d(0, -50%, 0);
+      z-index: 3;
+    }
+
+    .columnContent {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      padding: rem(136) 0;
+      transform: translate3d(0, 0, 0);
+      z-index: 1;
+
+      .columnCol {
+        height: rem(68);
+        padding: 0 rem(10);
+        font-size: rem(34);
+        color: #000;
+        text-align: center;
+        line-height: rem(68);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &.selected {
+          font-size: rem(38);
+        }
+      }
+    }
+  }
+}

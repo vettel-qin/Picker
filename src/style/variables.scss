@@ -1,0 +1,13 @@
+$base-font-size: 37.5px !default;
+
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+@function rem($pixel, $font-size: $base-font-size) {
+  @return strip-unit($pixel) / strip-unit($font-size) * 1rem;
+}
+
+// 基本颜色属性等
+$viColor: #00b4a5;
+$blue: #1e83d3;
