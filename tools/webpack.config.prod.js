@@ -8,7 +8,7 @@ module.exports = {
   entry: './example/src/index.tsx',
 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].[chunkhash:8].js',
     path: path.resolve(__dirname, '../dist'),
     libraryTarget: 'umd',
   },

@@ -1,38 +1,71 @@
 import React, { Component } from 'react';
-import PickerColumn from './components/PickerColumn';
-import s from './PickerView.scss';
+import Layout from '../components/layout';
 
-export interface PickerViewIProps {
-  data: any[];
+export interface PickerIProps {
+  cancelText?: string;
+  title?: string;
+  confirmText?: string;
+  col: number;
   value: any[];
-  pickerViewCol: number;
-  onPickerChange: (ele: any) => void;
+  data: any[];
+  cascade?: boolean;
+  onChange: (ele: any) => void;
 }
 
-export interface PickerViewIState {
-  defaultSelectedValue: any[];
+export interface PickerIState {
+  showPopUp: boolean;
+  selectedValue: string;
+  selectedData: any[];
 }
 
-class PickerView extends Component<PickerViewIProps, PickerViewIState> {
+class PickerView extends Component<PickerIProps, PickerIState> {
   public static defaultProps = {
+    cancelText: '取消',
+    title: '请选择',
+    confirmText: '确定',
+    col: 1,
     value: [],
+    cascade: true,
+    data: [],
   };
 
-  constructor(props: Readonly<PickerViewIProps>) {
+  constructor(props: Readonly<PickerIProps>) {
     super(props);
     this.state = {
-      defaultSelectedValue: props.value || [],
+      showPopUp: false,
+      selectedValue: '',
+      selectedData: [],
     };
   }
 
   componentDidMount() {}
+
+  handleLayoutChange = (params: any) => {
+    const { onChange } = this.props;
+    onChange(params);
+
+    this.setState({ selectedData: params });
+  };
+
+  getLayoutView = () => {
+    const { data, value, col, cascade } = this.props;
+
+    if (data.length < col) {
+      console.log('列数与数据源列数不一致');
+      return;
+    }
+
+    return (
+      <Layout layoutCol={col} data={data} value={value} cascade={cascade} onPickerChange={this.handleLayoutChange} />
+    );
+  };
 
   // 递归寻找value
   getNewValue = (params: { data: any; oldValue: any; newValue: any; deep: any }) => {
     const { data, oldValue, newValue, deep } = params;
     let has;
 
-    data.map((item, i) => {
+    data.map((item: any, i: number) => {
       if (Object.values(item).includes(oldValue[deep])) {
         newValue.push({ id: item.id, value: item.value });
         has = i;
@@ -49,83 +82,8 @@ class PickerView extends Component<PickerViewIProps, PickerViewIState> {
     return newValue;
   };
 
-  getColumnsData = (params: { data: any; value: any; hasFind: any; deep: any }) => {
-    const { data, value, hasFind, deep } = params;
-    let hasChildren;
-    const array: { id: any; value: any }[] = [];
-
-    data.map((item: any, i: number) => {
-      array.push({ id: item.id, value: item.value });
-
-      if (Object.values(item).includes(value[deep])) {
-        hasChildren = i;
-        return;
-      }
-
-      if (value.length <= 0) {
-        hasChildren = 0;
-      }
-    });
-
-    hasFind.push(array);
-
-    if (hasChildren === undefined) {
-      return hasFind;
-    }
-
-    if (data[hasChildren].children) {
-      this.getColumnsData({ data: data[hasChildren].children, value, hasFind, deep: deep + 1 });
-    }
-
-    return hasFind;
-  };
-
-  handleValueChange = (params: { value: any; optIndex: any }) => {
-    const { value, optIndex } = params;
-    const { data, onPickerChange } = this.props;
-    const { defaultSelectedValue } = this.state;
-
-    const oldValue = defaultSelectedValue.slice();
-    oldValue[optIndex] = value;
-
-    const newState = this.getNewValue({ data, oldValue, newValue: [], deep: 0 });
-
-    const newSelected = [];
-    for (const interator of newState) {
-      newSelected.push(interator.value);
-    }
-
-    this.setState({ defaultSelectedValue: newSelected });
-
-    onPickerChange(newState);
-  };
-
-  getColumns = () => {
-    const { data, pickerViewCol } = this.props;
-    const { defaultSelectedValue } = this.state;
-
-    const result = [];
-    let newData = [];
-
-    newData = this.getColumnsData({ data, value: defaultSelectedValue, hasFind: [], deep: 0 });
-
-    for (let i = 0; i < pickerViewCol; i++) {
-      result.push(
-        <PickerColumn
-          data={newData[i]}
-          value={defaultSelectedValue[i]}
-          key={i}
-          onPickerViewChange={this.handleValueChange}
-          optIndex={i}
-        />,
-      );
-    }
-
-    return result;
-  };
-
   render() {
-    return <div className={s.pickerView}>{this.getColumns()}</div>;
+    return <div>{this.getLayoutView()}</div>;
   }
 }
 

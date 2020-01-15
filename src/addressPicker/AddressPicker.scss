@@ -25,10 +25,10 @@
   border-bottom: 1px solid #ddd;
 
   .popupItem {
-    padding: 0 rem(30);
-    height: rem(70);
+    padding: rem(10) rem(30);
+    height: rem(60);
     font-size: rem(34);
-    line-height: rem(70);
+    line-height: rem(60);
     color: #000;
     text-align: center;
 
@@ -65,14 +65,13 @@
 
 .picker {
   z-index: 0;
-  //opacity: 0;
-  // visibility: hidden;
-  // transition: opacity 0.5s, z-index 0.5s;
-  transition: z-index 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, z-index 0.5s;
 }
 
 .showPicker {
   opacity: 1;
   z-index: 10000;
-  // visibility: visible;
+  visibility: visible;
 }

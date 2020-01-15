@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import { Picker } from '../../src/index';
+import { Picker, AddressPicker, PickerView } from '../../src/index';
 
 class App extends Component {
   componentWillMount() {}
@@ -35,17 +35,126 @@ class App extends Component {
           },
         ],
       },
+      {
+        value: '广东',
+        id: 12,
+        children: [
+          {
+            value: '广州',
+            id: 1201,
+            children: [{ value: '天河区', id: 120101 }],
+          },
+        ],
+      },
+    ];
+
+    // const array8 = [
+    //   [
+    //     {
+    //       value: '北京',
+    //       id: 11,
+    //     },
+    //     {
+    //       value: '广东',
+    //       id: 12,
+    //     },
+    //     {
+    //       value: '上海',
+    //       id: 13,
+    //     },
+    //   ],
+    // ];
+
+    const array8 = [
+      [
+        {
+          value: '北京',
+          id: 11,
+        },
+        {
+          value: '广东',
+          id: 12,
+        },
+        {
+          value: '上海',
+          id: 13,
+        },
+      ],
+      [
+        {
+          value: '北京',
+          id: 1101,
+        },
+        {
+          value: '广州',
+          id: 1201,
+        },
+        {
+          value: '上海',
+          id: 1301,
+        },
+      ],
+      [
+        {
+          value: '东城区',
+          id: 110101,
+        },
+        {
+          value: '天河',
+          id: 120101,
+        },
+        {
+          value: '浦东区',
+          id: 130101,
+        },
+        { value: '西城区', id: 110102 },
+        { value: '朝阳区', id: 110105 },
+      ],
     ];
     return (
       <div className="container">
         <h4>Picker选择器 -- 选择省市区</h4>
         <Picker
           col={3}
-          data={array3}
+          data={array8}
+          value={['广东', '广州', '天河']}
+          cascade={false}
           onConfirm={data => {
             console.log(data);
           }}
         ></Picker>
+        <br />
+        <br />
+        {/* <AddressPicker
+          col={3}
+          // data={array3}
+          // value={[
+          //   {
+          //     value: '北京',
+          //     id: 11,
+          //   },
+          //   {
+          //     value: '北京',
+          //     id: 1101,
+          //   },
+          //   {
+          //     value: '东城区',
+          //     id: 110101,
+          //   },
+          // ]}
+          onConfirm={data => {
+            console.log(data);
+          }}
+        ></AddressPicker> */}
+        <PickerView
+          col={1}
+          data={array8}
+          cascade={false}
+          value={[12]}
+          onChange={data => {
+            console.log(data, '1111');
+          }}
+        ></PickerView>
       </div>
     );
   }

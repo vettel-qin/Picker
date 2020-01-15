@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import Touchable from 'rc-touchable';
 import classNames from 'classnames';
 import Layout from '../components/layout';
+import Picker from '../picker';
+import addrData from './address';
 
 export interface PickerIProps {
   cancelText?: string;
@@ -10,7 +12,6 @@ export interface PickerIProps {
   col: number;
   value: any[];
   data: any[];
-  cascade?: boolean;
   onCancel?: () => void;
   onConfirm?: (ele: any) => void;
 }
@@ -21,15 +22,16 @@ export interface PickerIState {
   selectedData: any[];
 }
 
-import s from './Picker.scss';
+import s from '../picker/Picker.scss';
 
-class Picker extends Component<PickerIProps, PickerIState> {
+class AddressPicker extends Component<PickerIProps, PickerIState> {
   public static defaultProps = {
     cancelText: '取消',
     title: '请选择',
     confirmText: '确定',
-    col: 1,
+    col: 3,
     value: [],
+    data: addrData,
   };
 
   constructor(props: Readonly<PickerIProps>) {
@@ -92,34 +94,30 @@ class Picker extends Component<PickerIProps, PickerIState> {
     const { showPopUp } = this.state;
 
     return (
-      <Fragment>
+      <div className={`${s.picker} ${showPopUp && s.showPicker}`}>
         <Touchable>
-          <div className={classNames([`${showPopUp && s.popupMask}`])}></div>
+          <div className={classNames([`${s.popupMask}`])}></div>
         </Touchable>
-        <div className={`${s.picker} ${showPopUp && s.showPicker}`}>
-          <div className={classNames([`${s.popupWrap} ${showPopUp && 'popup'}`])}>
-            <div className={s.popupHeader}>
-              <Touchable onPress={this.handleCancel}>
-                <span className={`${s.popupItem} ${s.popupItemLeft}`}>{cancelText}</span>
-              </Touchable>
-              <span className={`${s.popupItem} ${s.popupItemTitle}`}>{title}</span>
-              <Touchable onPress={this.handleConfirm}>
-                <span className={`${s.popupItem} ${s.popupItemRight}`}>{confirmText}</span>
-              </Touchable>
-            </div>
-            <div className={s.popupBody}>{this.getLayoutView()}</div>
+        <div className={classNames([`${s.popupWrap} ${showPopUp && 'popup'}`])}>
+          <div className={s.popupHeader}>
+            <Touchable onPress={this.handleCancel}>
+              <span className={`${s.popupItem} ${s.popupItemLeft}`}>{cancelText}</span>
+            </Touchable>
+            <span className={`${s.popupItem} ${s.popupItemTitle}`}>{title}</span>
+            <Touchable onPress={this.handleConfirm}>
+              <span className={`${s.popupItem} ${s.popupItemRight}`}>{confirmText}</span>
+            </Touchable>
           </div>
+          <div className={s.popupBody}>{this.getLayoutView()}</div>
         </div>
-      </Fragment>
+      </div>
     );
   };
 
   getLayoutView = () => {
-    const { data, value, col, cascade } = this.props;
+    const { data, value, col } = this.props;
 
-    return (
-      <Layout layoutCol={col} data={data} cascade={cascade} value={value} onPickerChange={this.handleLayoutChange} />
-    );
+    return <Layout layoutCol={col} data={data} value={value} onPickerChange={this.handleLayoutChange} />;
   };
 
   // 递归寻找value
@@ -145,17 +143,7 @@ class Picker extends Component<PickerIProps, PickerIState> {
   };
 
   handleGetValue = () => {
-    const { value, data, cascade } = this.props;
-
-    if (!cascade) {
-      let selected = '';
-      for (const val of value) {
-        selected += val;
-      }
-
-      this.setState({ selectedValue: value.length > 0 ? selected : '' });
-      return;
-    }
+    const { value, data } = this.props;
 
     const newData = this.getNewValue({ data, oldValue: value, newValue: [], deep: 0 });
 
@@ -173,17 +161,12 @@ class Picker extends Component<PickerIProps, PickerIState> {
   // 回调选中
 
   render() {
-    const { selectedValue } = this.state;
-
     return (
       <Fragment>
-        {this.getPopupDOM()}
-        <Touchable onPress={this.handleClickOpen}>
-          <div className={s.extra}>{selectedValue ? selectedValue : '请选择'}</div>
-        </Touchable>
+        <Picker {...this.props} />
       </Fragment>
     );
   }
 }
 
-export default Picker;
+export default AddressPicker;

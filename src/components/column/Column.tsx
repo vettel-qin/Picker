@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import ZScroller from 'zscroller';
 
-import s from './PickerColumn.scss';
+import s from './Column.scss';
 
-export interface PickerColumnIProps {
+export interface ColumnIProps {
   value?: string;
   optIndex: number;
   data: any[];
-  onPickerViewChange: (ele: any) => void;
+  onLayoutChange: (ele: any) => void;
 }
 
-export interface PickerColumnIState {}
+export interface ColumnIState {}
 
-class PickerColumn extends Component<PickerColumnIProps, PickerColumnIState> {
+class Column extends Component<ColumnIProps, ColumnIState> {
   public static defaultProps = {
     value: '',
   };
@@ -23,7 +23,7 @@ class PickerColumn extends Component<PickerColumnIProps, PickerColumnIState> {
   private itemHeight!: number;
   private indicator: any;
 
-  constructor(props: Readonly<PickerColumnIProps>) {
+  constructor(props: Readonly<ColumnIProps>) {
     super(props);
     this.state = {};
   }
@@ -78,7 +78,7 @@ class PickerColumn extends Component<PickerColumnIProps, PickerColumnIState> {
     // 滚动结束 判断当前选中值
     const { top } = this.zscroller.scroller.getValues();
 
-    const { data, onPickerViewChange, value, optIndex } = this.props;
+    const { data, onLayoutChange, value, optIndex } = this.props;
     let currentIndex = top / this.itemHeight;
     const floor = Math.floor(currentIndex);
     if (currentIndex - floor > 0.5) {
@@ -94,7 +94,7 @@ class PickerColumn extends Component<PickerColumnIProps, PickerColumnIState> {
 
     if (selectedValue && selectedValue !== value) {
       // 值发生变化 通知父组件
-      onPickerViewChange({ ...data[currentIndex], optIndex });
+      onLayoutChange({ ...data[currentIndex], optIndex });
     }
   };
 
@@ -156,4 +156,4 @@ class PickerColumn extends Component<PickerColumnIProps, PickerColumnIState> {
   }
 }
 
-export default PickerColumn;
+export default Column;

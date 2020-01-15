@@ -5,11 +5,15 @@ const cleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
   mode: 'production',
 
-  entry: './src/index.ts',
+  entry: {
+    Picker: './src/picker/index.ts',
+    AddressPicker: './src/addressPicker/index.ts',
+  },
 
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, '../lib'),
+    library: '@vettel/picker',
     libraryTarget: 'umd',
   },
 
@@ -24,7 +28,7 @@ module.exports = {
         use: [
           // tsc编译后，再用babel处理
           {
-            loader: "babel-loader"
+            loader: "babel-loader",
           },
           {
             loader: "ts-loader",
