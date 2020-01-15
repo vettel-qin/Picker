@@ -92,9 +92,93 @@ import Picker from '@vettel/picker/lib/picker';
 | ----------- | -------------------------------------------------------------- | ----------------------------------- | ------ | -------- |
 | data        | 数据源                                                         | Array<{value, id, children: Array}> | 无     | 是       |
 | value       | 值，格式是[value1, value2, value3]，对应数据源的相应级层 value | Array                               | 无     | 否       |
-| cols        | 列数                                                           | Number                              | 3      | 是       |
+| cols        | 列数                                                           | Number                              | 3      | 否       |
 | onConfirm   | 点击确定时执行的回调                                           | (val): void                         | 无     | 是       |
 | onCancel    | 点击取消时执行的回调                                           | (val): void                         | 无     | 否       |
 | title       | 标题                                                           | String                              | 请选择 | 否       |
 | confirmText | 确定按钮文案                                                   | String                              | 确定   | 否       |
 | cancelText  | 取消按钮文案                                                   | String                              | 取消   | 否       |
+
+# 代码演示
+
+```
+import { Picker, AddressPicker, PickerView } from '@vettel/picker'
+const array = [
+  {
+    value: '北京',
+    id: 11,
+    children: [
+      {
+        value: '北京',
+        id: 1101,
+        children: [
+          { value: '东城区', id: 110101 },
+          { value: '西城区', id: 110102 },
+        ],
+      },
+    ],
+  },
+  {
+    value: '广东',
+    id: 12,
+    children: [
+      {
+        value: '广州',
+        id: 1201,
+        children: [{ value: '天河区', id: 120101 }],
+      },
+    ],
+  },
+];
+
+const seasons = [
+  [
+    {
+      id: '2019',
+      value: '2019',
+    },
+    {
+      id: '2020',
+      value: '2020',
+    },
+  ],
+  [
+    {
+      id: '春',
+      value: '春',
+    },
+    {
+      id: '夏',
+      value: '夏',
+    },
+  ],
+];
+
+<Picker
+  col={3}
+  data={array}
+  value={['广东', '广州', '天河']}
+  onConfirm={data => {
+    console.log(data);
+  }}
+></Picker>
+
+
+<AddressPicker
+  onConfirm={data => {
+    console.log(data);
+  }}
+/>
+
+<PickerView
+  col={1}
+  data={seasons}
+  cascade={false}
+  value={[12]}
+  onChange={data => {
+    console.log(data, '1111');
+  }}
+></PickerView>
+```
+
+#[Online Demo](https://vettel-qin.github.io/Picker/)

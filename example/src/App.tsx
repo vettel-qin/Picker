@@ -125,27 +125,12 @@ class App extends Component {
         ></Picker>
         <br />
         <br />
-        {/* <AddressPicker
-          col={3}
-          // data={array3}
-          // value={[
-          //   {
-          //     value: '北京',
-          //     id: 11,
-          //   },
-          //   {
-          //     value: '北京',
-          //     id: 1101,
-          //   },
-          //   {
-          //     value: '东城区',
-          //     id: 110101,
-          //   },
-          // ]}
+        <AddressPicker
           onConfirm={data => {
             console.log(data);
           }}
-        ></AddressPicker> */}
+        ></AddressPicker>
+        <br />
         <PickerView
           col={1}
           data={array8}
